@@ -9,5 +9,6 @@ Pipelines here are designed to build, ...,  test and  deploy **REACT** applicati
 ![Architecture Diagram](/svg/front/aws-s3-cloudfront.svg)
 
 ### Pipelines
-- [aws-react-s3-cloudfront.yaml](./react-aws-s3-cloudfront.yaml)
+- [aws-react-s3-cloudfront.yaml](./react-aws-s3-cloudfront.yaml) -> single branch
+- [aws-react-s3-cloudfront-sonarqube.yaml](./react-aws-s3-cloudfront-sonarqube.yaml) -> single branch
 
