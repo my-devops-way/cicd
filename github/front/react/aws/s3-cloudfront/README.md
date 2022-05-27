@@ -11,5 +11,6 @@ Pipelines here are designed to build, ...,  test and  deploy **REACT** applicati
 ### Pipelines
 - [aws-react-s3-cloudfront.yaml](./react-aws-s3-cloudfront.yaml) -> test, buil and deploy (single branch)
 - [aws-react-s3-cloudfront-sonarqube.yaml](./react-aws-s3-cloudfront-sonarqube.yaml) -> scan code, test, build, and deploy (single branch)
-- [pr-sonarqube.yaml](./pr-react-sonarqube.yaml) -> scan, test and build on pull_request (multibranch)
+- [pr.yaml](./pr.yaml) -> test and build on pull_request (multibranch)
+- [pr-sonarqube.yaml](./pr-sonarqube.yaml) -> scan (sonarqube), test and build on pull_request (multibranch)
 
