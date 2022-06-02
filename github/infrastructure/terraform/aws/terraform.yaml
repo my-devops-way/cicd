@@ -1,0 +1,72 @@
+---
+name: terraform-deploy
+
+on:
+  push:
+    branches: [main, dev, test]
+
+jobs:
+  terraform:
+    name: terraform test and deploy
+    runs-on: ubuntu-18.04
+    defaults:
+      run:
+        shell: bash
+
+    steps:
+
+      - name: Checkout Action
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      # create sonarqube report
+      # needs sonar-project.properties file in root directory
+      - name: Sonarqube Scan
+        uses: sonarsource/sonarqube-scan-action@master
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
+
+      # Fail if quality gate is red
+      - uses: sonarsource/sonarqube-quality-gate-action@master
+        timeout-minutes: 5
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v1
+        with:
+          terraform_version: 1.1.5
+
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.AWS_REGION }}
+
+      # action to get branch names
+      - uses: nelonoel/branch-name@v1.0.1
+
+      - name: Terraform pre apply actions
+        run: |
+          TF_ENV=$( [[ $BRANCH_NAME = 'main' ]] && echo prod || echo $BRANCH_NAME )
+          # or
+          # TF_ENV=$BRANCH_NAME
+          TF_WORKSPACE=$TF_ENV
+          terraform fmt -check
+          terraform init
+          terraform validate
+          terraform workspace select $TF_WORKSPACE
+          terraform init
+          # requires var file  in /envs folder
+          # example: envs/prod , envs/dev, envs/test ...
+          terraform plan -var-file="envs/${TF_ENV}"
+
+      - name: Terraform Apply
+        run: |
+          TF_ENV=$( [[ $BRANCH_NAME = 'main' ]] && echo prod || echo $BRANCH_NAME )
+          # or
+          # TF_ENV=$BRANCH_NAME
+          terraform apply -auto-approve -var-file="envs/${TF_ENV}"
