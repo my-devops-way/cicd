@@ -4,19 +4,17 @@ version: 0.1
 phases:
   install:
     commands:
-      - npm install 
+      - npm ci
     finally:
       - echo  SUCCESS .....
   build:
     commands:
       - npm run build
+      - CI=true npm test --if-present
     finally:
-      - echo  SUCCESS BUILDER  ....
+      - echo  SUCCESS ....
   post_build:
     commands:
-      - echo $OUTPUT_BUILD_PATH
-      - echo $BUCKET_NAME
-      - echo $DISTRIBUTION_ID
       - aws s3 sync ${OUTPUT_BUILD_PATH}  s3://${BUCKET_NAME} --delete
       - aws cloudfront create-invalidation --distribution-id ${DISTRIBUTION_ID} --paths "/*"
     finally:
