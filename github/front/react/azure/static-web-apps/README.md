@@ -1,4 +1,4 @@
-# AWS REACT
+# AZURE REACT
 Pipelines here are designed to build, ...,  test and  deploy **REACT** applications in  **AZURE Static Web Apps** configurations (see Architecture [diagram](#architecture))
 
 ## Index
