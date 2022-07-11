@@ -1,0 +1,59 @@
+---
+name: react-aws-s3-cloudfront-sonarqube
+on:
+  push:
+    branches: [dev]
+
+jobs:
+  build:
+    name: Build Project
+    runs-on: ubuntu-18.04
+    steps:
+      - name: Checkout Action
+        uses: actions/checkout@v3
+
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 14.x
+          cache: npm
+
+      # create sonarqube report
+      # needs sonar-project.properties file in root
+      - name: Sonar Scan
+        uses: sonarsource/sonarqube-scan-action@master
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
+
+      # Fail if quality gate is red
+      - uses: sonarsource/sonarqube-quality-gate-action@master
+        timeout-minutes: 5
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+
+      - name: Install dependencies, build and test project
+        run: |
+          npm ci
+          npm run build
+          CI=true npm test --if-present
+
+      - name: Configure aws credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-1
+
+      - name: Copy files to S3
+        env:
+          BUCKET_NAME: my.bucket.name
+        run: aws s3 sync build/ s3://${BUCKET_NAME} --delete
+
+      - name: Create CloudFront invalidation
+        env:
+          DISTRIBUTION_ID: my_distribution_id
+        run: |
+          aws cloudfront create-invalidation \
+          --distribution-id $DISTRIBUTION_ID \
+          --paths "/*"
