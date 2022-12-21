@@ -1,3 +1,5 @@
+/** the path where sonar-scanner will be installed */
+def sonnarPath = ''
 pipeline {
     /**
     * IMPORTANT:
@@ -16,6 +18,25 @@ pipeline {
     }
 
     stages {
+        /**
+        * To run this stage you need to install SonarQube Scanner pluging and configure it
+        * read this link:
+        * https://docs.sonarqube.org/latest/analyzing-source-code/scanners/jenkins-extension-sonarqube/
+        */
+        stage('sonar-scanner') {
+            steps {
+                /**
+                * install sonar-scanner
+                */
+                script {
+                    sonnarPath = tool('sonar-scanner')
+                }
+                withSonarQubeEnv(installationName: 'mydevopsway') {
+                    echo 'running scanner'
+                    sh "${sonnarPath}/bin/sonar-scanner"
+                }
+            }
+        }
         stage('install dependencies') {
             when {
                 anyOf {
