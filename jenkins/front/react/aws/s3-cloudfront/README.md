@@ -17,7 +17,7 @@ Pipelines here are designed to build, ...,  test and  deploy **REACT** applicati
 - Jenkins server  already running.
 - (optional) Sonarqube server already running.
 - aws-cli, nodejs and npm installed:
-	- **jobs running in docker/kubernetes:** use [jenkins/inbound-agent](https://hub.docker.com/r/jenkins/inbound-agent/) as based image and install aws-cli, node, and npm.
+	- **jobs running in docker/kubernetes:** use [jenkins/inbound-agent](https://hub.docker.com/r/jenkins/inbound-agent/) as based image and install aws-cli, node, and npm on it.
 	- **jobs running in master node (jenkins single server):** [install](./Dockerfile) aws-cli, node and npm in the jenkins machine and be sure
 	- ) aws-cli, node and npm in the jenkins machine and be sure
 		that they are in the $PATH for jenkins user.
