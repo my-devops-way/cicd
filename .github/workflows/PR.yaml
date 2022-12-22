@@ -41,3 +41,22 @@ jobs:
       - name: Linting
         run: |
           npm-groovy-lint --failon info --files **/*.groovy
+  markdown-lint-:
+    name: 'Linting Markdown code'
+    runs-on: ubuntu-18.04
+    steps:
+      - name: Checkout Action
+        uses: actions/checkout@v3
+
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16.x
+
+      - name: Install markdown linter package
+        run: |
+          npm install -g markdownlint-cli
+
+      - name: Linting
+        run: |
+          markdownlint **/*.md
