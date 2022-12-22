@@ -40,4 +40,4 @@ jobs:
 
       - name: Linting
         run: |
-          npm-groovy-lint --fileon info --files **/*.groovy
+          npm-groovy-lint --failon info --files **/*.groovy
