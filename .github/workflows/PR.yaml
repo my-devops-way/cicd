@@ -22,3 +22,23 @@ jobs:
 
       - name: Linting
         run: yamllint .
+  groovy-lint:
+    name: 'Linting Groovy code'
+    runs-on: ubuntu-18.04
+    steps:
+      - name: Checkout Action
+        uses: actions/checkout@v3
+
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16.x
+          cache: npm
+
+      - name: Install groovy linter package
+        run: |
+          npm install -g npm-groovy-lint
+
+      - name: Linting
+        run: |
+          npm-groovy-lint --fileon info --files **/*.groovy
