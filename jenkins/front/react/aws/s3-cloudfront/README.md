@@ -33,3 +33,4 @@ in  **AWS S3/CloudFront** configurations (see Architecture [diagram](#architectu
     sure that they are in the $PATH for jenkins user.
 - plugins:
   - [sonarqube scanner](https://plugins.jenkins.io/sonar/)
+
