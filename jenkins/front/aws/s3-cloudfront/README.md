@@ -17,7 +17,7 @@ in  **AWS S3/CloudFront** configurations (see Architecture [diagram](#architectu
 
 - [frontend-aws-s3-cloudfront.groovy](./frontend-aws-s3-cloudfront.groovy) ->
   test, buil and deploy
-- [./frontend-aws-s3-cloudfront-sonarqube.groovy](./frontend-aws-s3-cloudfront-sonarqube.groovy) ->
+- [frontend-aws-s3-cloudfront-sonarqube.groovy](./frontend-aws-s3-cloudfront-sonarqube.groovy) ->
   scan code, test, build, and deploy
 
 ### Prerequisites
