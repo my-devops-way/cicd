@@ -1,7 +1,7 @@
 
-# AWS REACT
+# AWS FRONTEND
 
-Pipelines here are designed to build, ...,  test and  deploy **REACT** applications
+Pipelines here are designed to build, ...,  test and  deploy **COMMON FRONEND** (react, angular, vue...) applications
 in  **AWS S3/CloudFront** configurations (see Architecture [diagram](#architecture))
 
 ## Index
@@ -15,9 +15,9 @@ in  **AWS S3/CloudFront** configurations (see Architecture [diagram](#architectu
 
 ### Pipelines
 
-- [aws-react-s3-cloudfront.groovy](./react-aws-s3-cloudfront.groovy) ->
+- [frontend-aws-s3-cloudfront.groovy](./frontend-aws-s3-cloudfront.groovy) ->
   test, buil and deploy
-- [aws-react-s3-cloudfront-sonarqube.groovy](./react-aws-s3-cloudfront-sonarqube.groovy) ->
+- [./frontend-aws-s3-cloudfront-sonarqube.groovy](./frontend-aws-s3-cloudfront-sonarqube.groovy) ->
   scan code, test, build, and deploy
 
 ### Prerequisites
