@@ -1,0 +1,14 @@
+---
+kind: Pod
+metadata:
+  name: jenkins-slave
+  namespace: devops-tools
+spec:
+  containers:
+    - name: jenkins-terraform
+      image: hashicorp/terraform:1.3.7
+      imagePullPolicy: Never
+      command:
+        - sleep
+      args:
+        - 99d
